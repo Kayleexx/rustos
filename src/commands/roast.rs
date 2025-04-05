@@ -15,4 +15,3 @@ impl Plugin for RoastMe {
         "You debug with println, don’t you?".to_string()
     }
 }
-

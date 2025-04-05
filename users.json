@@ -1,7 +1,0 @@
-{
-  "kaylee": {
-    "username": "kaylee",
-    "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$bNKHCN6m/HAdxExU79dNVQ$HfdQPcSBNE1MfG6mKS9utmtuAqVQf1KCcTq3m01j1Wg",
-    "salt": "bNKHCN6m/HAdxExU79dNVQ"
-  }
-}

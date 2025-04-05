@@ -1,8 +1,10 @@
 use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
 use argon2::password_hash::{SaltString, rand_core::OsRng};
 use serde::{Serialize, Deserialize};
-use std::{collections::HashMap, fs, fs::File, io::Write};
+use std::collections::HashMap;
+use std::fs;
 use rpassword::read_password;
+
 
 #[derive(Serialize, Deserialize)]
 pub struct User {

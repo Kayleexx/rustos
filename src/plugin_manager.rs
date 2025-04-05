@@ -13,18 +13,14 @@ impl PluginManager {
     }
 
     pub fn register_plugin(&mut self, plugin: Box<dyn Plugin>) {
-        self.plugins.insert(plugin.name().to_string(), plugin); // ✅ convert &str to String
+        self.plugins.insert(plugin.name().to_string(), plugin);
     }
 
     pub fn execute_command(&self, name: &str, input: &str) -> Option<String> {
-        self.plugins.get(name).map(|p| p.execute(input.to_string())) // ✅ convert &str to String
+        self.plugins.get(name).map(|p| p.execute(input.to_string()))
     }
 
     pub fn list_plugins(&self) -> Vec<String> {
-        self.plugins.keys().cloned().collect()
-    }
-
-    pub fn get_registered_plugins(&self) -> Vec<String> {
         self.plugins.keys().cloned().collect()
     }
 }
