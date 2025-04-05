@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+
 pub type CommandFn = fn(Vec<String>);
 
 pub struct CommandRegistry {
@@ -8,7 +9,9 @@ pub struct CommandRegistry {
 
 impl CommandRegistry {
     pub fn new() -> Self {
-        Self { commands: HashMap::new() }
+        Self {
+            commands: HashMap::new(),
+        }
     }
 
     pub fn register(&mut self, name: &str, handler: CommandFn) {
@@ -22,4 +25,10 @@ impl CommandRegistry {
             println!("Command '{}' not found", name);
         }
     }
+}
+
+pub trait Plugin: Send + Sync {
+    fn name(&self) -> &'static str;
+    fn description(&self) -> &'static str;
+    fn execute(&self, input: String) -> String;
 }
