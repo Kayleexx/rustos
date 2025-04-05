@@ -38,7 +38,7 @@ pub async fn start_shell() {
                 }
             },
             "roast-me" => {
-                let roast = roast::RoastMe {}; // Ensure correct struct initialization
+                let roast = roast::RoastMe {};
                 if let Some(name) = &username {
                     println!("{}", roast.execute(name.to_string()));
                 } else {
@@ -55,7 +55,12 @@ pub async fn start_shell() {
                 }
             },
             "panic" => utils::panic_mode(),
-            "crabgpt" => crabgpt::handle_crabgpt(args),
+            "crabgpt" => {
+                match crabgpt::handle_crabgpt(args).await {
+                    Ok(res) => println!("{}", res),
+                    Err(e) => eprintln!("Error: {}", e),
+                }
+            },
             "encrypt" => encrypt::encrypt_file(args),
             "decrypt" => encrypt::decrypt_file(args),
             "crabtop" => crabtop::show_tasks(),

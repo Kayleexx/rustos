@@ -6,6 +6,7 @@ mod plugin_manager;
 
 use crate::plugin_manager::PluginManager;
 use crate::commands::roast::RoastMe;
+// Removed CrabGPT since it is not a plugin
 
 mod commands {
     pub mod crabgpt;
@@ -24,7 +25,6 @@ use axum::{
     http::StatusCode,
 };
 use tower::ServiceBuilder;
-
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
@@ -45,13 +45,12 @@ async fn main() {
 
     let plugin_manager = Arc::new(Mutex::new(PluginManager::new()));
 
-    // Register the RoastMe plugin
     {
         let mut manager = plugin_manager.lock().await;
         manager.register_plugin(Box::new(RoastMe));
+        // ❌ No CrabGPT registered here
     }
 
-    // Debugging: Print registered plugins
     {
         let manager = plugin_manager.lock().await;
         println!("Registered plugins: {:?}", manager.list_plugins());
@@ -68,18 +67,16 @@ async fn main() {
             .unwrap();
     });
 
-    // ✅ Fixed function call issue
-    shell::start_shell().await; // No extra argument
+    shell::start_shell().await;
 }
 
-// ✅ Fixed HTTP command execution
 async fn run_command(
     Extension(manager): Extension<Arc<Mutex<PluginManager>>>,
     Json(payload): Json<CommandRequest>,
 ) -> Result<Json<CommandResponse>, StatusCode> {
     let manager = manager.lock().await;
     let response = manager
-        .execute_command(&payload.command, &payload.input) // ✅ Fixed function call
+        .execute_command(&payload.command, &payload.input)
         .unwrap_or_else(|| "Unknown command".to_string());
 
     Ok(Json(CommandResponse { response }))
